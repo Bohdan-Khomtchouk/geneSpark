@@ -40,7 +40,7 @@ import argparse
 import pandas as pd
 import numpy as np
 
-
+@profile
 def load_dataset(input_filename):
     '''
     Parsing a GTF file
@@ -53,17 +53,18 @@ def load_dataset(input_filename):
 
     Returns
     -------
-    dataset : List of Lists
-        A parsed GTF
+    df : pandas.DataFrame
+        A pandas DataFrame
     '''
     dataset = []
+    i = 0
     with open(input_filename) as f:
         for line in f:
             line = line.strip().split("\t")
             chro = line[0]
             feature_type = line[2]
-            start = line[3]
-            end = line[4]
+            start = int(line[3])
+            end = int(line[4])
             strand = line[6]
             gene_col = line[8]
             if feature_type == "exon":
@@ -73,41 +74,24 @@ def load_dataset(input_filename):
                     col = col.split()
                     if len(col) > 0:
                         if col[0] == "gene_name":
-                            gene_name = eval(col[1])
+                            gene_name = col[1][1:-1]
                         if col[0] == "gene_id":
-                            gene_id = eval(col[1])
+                            gene_id = col[1][1:-1]
                 gene = gene_id
                 if gene_name is not None:
                     gene += "_" + gene_name
                 dataset.append((chro, start, end, strand, gene))
-    return dataset
-
-
-def import_dataframe(dataset):
-    '''
-    Create pandas DataFrame from a GTF dataset
-
-    Parameters
-    ----------
-
-    dataset : List of Lists
-        parsed GTF
-
-    Returns
-    -------
-    df : pandas.DataFrame
-        A pandas DataFrame
-    '''
+                #df.append([chro, start, end, strand, gene])
+            i += 1
+            if i % 100000 == 0:
+                print i, "lines processed"
     df = pd.DataFrame(data=dataset,
                       columns=['Chr', 'Start', 'End', 'Strand', 'Gene'])
-    # set type of coordinates to integer
-    df['Start'] = df['Start'].astype(np.int)
-    df['End'] = df['End'].astype(np.int)
-    print df.size
     return df
 
 
-def geneXtender(df):
+@profile
+def geneXtender(df, upstrean_bp=2000, downstream_bp=500):
     '''
     Performe geneXtender extensions
 
@@ -128,18 +112,18 @@ def geneXtender(df):
     # substract/add the coordinates of the minimum value by 2000
     for i in minValues.index:
         if minValues.ix[i, 'Strand'] == '+':
-            minValues.ix[i, 'Start'] -= 2000
+            minValues.ix[i, 'Start'] -= upstrean_bp
         else:
-            minValues.ix[i, 'Start'] -= 500
+            minValues.ix[i, 'Start'] -= downstream_bp
 
     # get the indexes of the maximum value for each gene
     maxValues = df.loc[(df.groupby('Gene'))['End'].idxmax()]
     # add/subtract the coordinates of the maximum value by 500
     for i in maxValues.index:
         if maxValues.ix[i, 'Strand'] == '+':
-            maxValues.ix[i, 'End'] += 500
+            maxValues.ix[i, 'End'] += downstream_bp
         else:
-            maxValues.ix[i, 'End'] += 2000
+            maxValues.ix[i, 'End'] += upstrean_bp
 
     # re-index the dataframes by gene name
     minValues = minValues.set_index('Gene')
@@ -154,7 +138,7 @@ def geneXtender(df):
 
     return gtf
 
-
+@profile
 def write_output(gtf, output_filename):
     '''
     Write extended GTF to output
@@ -175,22 +159,23 @@ def write_output(gtf, output_filename):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
-        description='Compute gene extensions (in DNA base pairs) from first and last exon of every gene in a GTF file')
-    parser.add_argument('-i', '--input-file', help='GTF input filename')
+        description='Compute gene extensions (in DNA base pairs)\
+                    from first and last exon of every gene in a GTF file')
+    parser.add_argument('input_file', metavar='INPUT_FILE',
+                        help='GTF input filename')
     parser.add_argument('-o', '--output-file',
                         help='Extended GTF output filename')
+    parser.add_argument('-u', '--upstream-base-pairs', type=int,
+                        default=2000, help='Extended GTF output filename')
+    parser.add_argument('-d', '--downstream-base-pairs', type=int,
+                        default=500, help='Extended GTF output filename')
     args = parser.parse_args()
     input_file = args.input_file
-    if input_file is None:
-        print "Error: you must specify an input file"
-        parser.print_help()
-        sys.exit(-1)
     output_file = args.output_file
     if output_file is None:
         filename, extension = os.path.splitext(input_file)
         output_file = filename + "_output" + extension
 
-    dataset = load_dataset(input_file)
-    df = import_dataframe(dataset)
-    gtf = geneXtender(df)
+    df = load_dataset(input_file)
+    gtf = geneXtender(df, args.upstream_base_pairs, args.downstream_base_pairs)
     write_output(gtf, output_file)
