@@ -166,9 +166,9 @@ if __name__ == '__main__':
     parser.add_argument('-o', '--output-file',
                         help='Extended GTF output filename')
     parser.add_argument('-u', '--upstream-base-pairs', type=int,
-                        default=2000, help='Extended GTF output filename')
+                        default=2000, help='Extend upstream of first exon of each gene')
     parser.add_argument('-d', '--downstream-base-pairs', type=int,
-                        default=500, help='Extended GTF output filename')
+                        default=500, help='Extend downstream of last exon of each gene')
     args = parser.parse_args()
     input_file = args.input_file
     output_file = args.output_file
