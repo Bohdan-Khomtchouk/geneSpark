@@ -40,7 +40,7 @@ import argparse
 import pandas as pd
 import numpy as np
 
-@profile
+#@profile
 def load_dataset(input_filename):
     '''
     Parsing a GTF file
@@ -90,7 +90,7 @@ def load_dataset(input_filename):
     return df
 
 
-@profile
+#@profile
 def geneXtender(df, upstrean_bp=2000, downstream_bp=500):
     '''
     Performe geneXtender extensions
@@ -138,7 +138,7 @@ def geneXtender(df, upstrean_bp=2000, downstream_bp=500):
 
     return gtf
 
-@profile
+#@profile
 def write_output(gtf, output_filename):
     '''
     Write extended GTF to output
