@@ -110,7 +110,13 @@ def geneXtension(gene, upstream_bp, downstream_bp):
     ----------
 
     gene : Tuple
-        a tuple w/ format: (Chr, Start, End, Strand)
+        a tuple w/ format: (Gene_id, (Chr, Start, End, Strand))
+
+    upstream_bp : Spark broadcast variable, int (default=2000)
+        Extend upstream of first exon of each gene
+
+    dowstream_bp : Spark broadcast variable, int (default=500).
+        Extend dowstream of last exon of each gene
 
     Returns
     -------
@@ -147,7 +153,7 @@ def geneXtender(input_filename, output_filename,
     upstream_bp : int (default=2000):
         Extend upstream of first exon of each gene
 
-    dowstream_bp : int (default=2000):
+    dowstream_bp : int (default=500):
         Extend dowstream of last exon of each gene
     '''
     # create spark context
