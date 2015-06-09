@@ -1,5 +1,9 @@
 # Copyright (C) 2015 Bohdan Khomtchouk and Mohamed Sordo
 
+# Before running this program, install Spark on your machine: https://spark.apache.org/downloads.html
+
+# Usage: /path/to/spark-1.3.1/bin/spark-submit --master local[2] geneXtender_spark.py ../Input/NAME_OF_FILE.gtf 
+
 # geneXtender is a software program written in the Python programming language
 # that extends the boundaries of every gene in a genome by a user-specified
 # distance (in DNA base pairs) for the purpose of flexibly incorporating cis-
