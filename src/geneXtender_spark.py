@@ -4,6 +4,8 @@
 
 # Usage: /path/to/spark-1.3.1/bin/spark-submit --master local[2] geneXtender_spark.py ../Input/NAME_OF_FILE.gtf 
 
+# Apache Spark geneXtender runs approximately 5X faster (relative to geneXtender with only big data Pandas and Numpy libraries) in a local machine with 2 cores.
+
 # geneXtender is a software program written in the Python programming language
 # that extends the boundaries of every gene in a genome by a user-specified
 # distance (in DNA base pairs) for the purpose of flexibly incorporating cis-
