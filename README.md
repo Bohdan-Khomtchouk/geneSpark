@@ -28,7 +28,7 @@ Graduate (NDSEG) Fellowship, 32 CFR 168a.
 * Spark / PySpark (if you use the spark version of geneXtender)
   * https://spark.apache.org/downloads.html
 
-###ÊHow to run
+##ÊHow to run
 
 ##### Regular version:
 * python src/geneXtender.py [-o OUTPUT_FILE] [-u UPSTREAM_BASE_PAIRS] [-d DOWNSTREAM_BASE_PAIRS] INPUT_FILE
