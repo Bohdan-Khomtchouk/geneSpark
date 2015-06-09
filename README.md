@@ -27,7 +27,7 @@ Graduate (NDSEG) Fellowship, 32 CFR 168a.
 * Pandas >= 0.14.1 (if you use the regular version of geneXtender)
 * Spark / PySpark (if you use the spark version of geneXtender)
   * https://spark.apache.org/downloads.html
-  
+
 ###ÊHow to run
 
 * Regular version:
