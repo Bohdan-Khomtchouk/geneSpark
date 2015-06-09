@@ -30,10 +30,10 @@ Graduate (NDSEG) Fellowship, 32 CFR 168a.
 
 ###ÊHow to run
 
-#### Regular version:
+##### Regular version:
 * python src/geneXtender.py [-o OUTPUT_FILE] [-u UPSTREAM_BASE_PAIRS] [-d DOWNSTREAM_BASE_PAIRS] INPUT_FILE
   
-#### Spark version:
+##### Spark version:
 * /PATH/TO/spark-VERSION/bin/spark-submit --master local[2] src/geneXtender_spark.py [-o OUTPUT_FILE] [-u UPSTREAM_BASE_PAIRS] [-d DOWNSTREAM_BASE_PAIRS] INPUT_FILE
 * This is just an example using 2 cores of a local machine. For more options, please have a look at [Spark documentation](https://spark.apache.org/docs/latest/index.html)
 
