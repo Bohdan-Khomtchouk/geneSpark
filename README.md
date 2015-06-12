@@ -25,7 +25,7 @@ Graduate (NDSEG) Fellowship, 32 CFR 168a.
 
 * Python >= 2.7
 * Pandas >= 0.14.1 (if you use the regular version of geneXtender)
-* Spark / PySpark (if you use the spark version of geneXtender)
+* Spark / PySpark (if you use the Spark version of geneXtender)
   * https://spark.apache.org/downloads.html
 
 ## How to run
@@ -35,6 +35,8 @@ Graduate (NDSEG) Fellowship, 32 CFR 168a.
   
 ##### Spark version:
 * /PATH/TO/spark-VERSION/bin/spark-submit --master local[2] src/geneXtender_spark.py [-o OUTPUT_FILE] [-u UPSTREAM_BASE_PAIRS] [-d DOWNSTREAM_BASE_PAIRS] INPUT_FILE
-* This is just an example using 2 cores of a local machine. For more options, please have a look at [Spark documentation](https://spark.apache.org/docs/latest/index.html)
+* This is just an example using 2 cores of a local machine. Change local[2] to customize to the number of cores in your machine. To learn how many cores your machine has, type `sysctl -n hw.ncpu` in the Terminal (command-line). For more options, please have a look at [Spark documentation](https://spark.apache.org/docs/latest/index.html)
 
-The Apache Spark version geneXtender runs approximately 5X faster (relative to geneXtender using Pandas) in a local machine with 2 cores.
+The Apache Spark version of geneXtender runs approximately 5X faster (relative to geneXtender using only the Pandas and Numpy library of Python) in a local machine with 2 cores.  In a local machine with 8 cores, the Spark version of geneXtender runs 11X faster.  The more cores your system has, the faster Spark geneXtender finishes its run.  
+
+Apache Spark geneXtender is designed to scale up and leverage the power of thousands of computing cores of any HPC environment via the MapReduce framework.
