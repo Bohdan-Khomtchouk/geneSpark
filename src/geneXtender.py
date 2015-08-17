@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (C) 2015 Bohdan Khomtchouk and Mohamed Sordo
+# Copyright (C) 2015 Bohdan Khomtchouk
 
 # geneXtender is a software program written in the Python programming language that extends the
 # boundaries of every gene in a genome by a user-specified distance (in DNA base pairs) for the
