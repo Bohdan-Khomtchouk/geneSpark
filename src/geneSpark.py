@@ -1,39 +1,6 @@
 #!/usr/bin/env python
 # Copyright (C) 2015 Bohdan Khomtchouk
 
-# geneXtender is a software program written in the Python programming language that extends the
-# boundaries of every gene in a genome by a user-specified distance (in DNA base pairs) for the
-# purpose of flexibly incorporating cis-regulatory elements (CREs) such as enhancers and
-# promoters as well as downstream elements that are important to the function of the gene. By
-# performing a computational expansion of this nature, ChIP-seq reads that would initially not
-# map strictly to a specific gene can now be mapped to the regulatory regions of the
-# gene, thereby implicating the gene as a potential candidate, and thereby making the ChIP-seq
-# experiment more successful. Such an approach becomes particularly important when working with
-# epigenetic histone modifications that have inherently broad peaks.  geneXtender is designed to
-# handle the opposite orientations inherent to positive and negative DNA strands.
-
-# geneXtender is an ongoing bioinformatics software project fully financially supported by the
-# United States Department of Defense (DoD) through the National Defense Science and Engineering
-# Graduate Fellowship (NDSEG) Program. This research was conducted with Government support under
-# and awarded by DoD, Army Research Office (ARO), National Defense Science and Engineering
-# Graduate (NDSEG) Fellowship, 32 CFR 168a.
-
-
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-# -------------------------------------------------------------------------------------------
-
 import os
 import sys
 import argparse
@@ -91,9 +58,9 @@ def load_dataset(input_filename):
 
 
 #@profile
-def geneXtender(df, upstrean_bp=2000, downstream_bp=500):
+def geneSpark(df, upstrean_bp=2000, downstream_bp=500):
     '''
-    Performe geneXtender extensions
+    Perform geneSpark extensions
 
     Parameters
     ----------
@@ -177,5 +144,5 @@ if __name__ == '__main__':
         output_file = filename + "_output" + extension
 
     df = load_dataset(input_file)
-    gtf = geneXtender(df, args.upstream_base_pairs, args.downstream_base_pairs)
+    gtf = geneSpark(df, args.upstream_base_pairs, args.downstream_base_pairs)
     write_output(gtf, output_file)
